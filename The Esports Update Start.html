@@ -1,19 +1,80 @@
+import requests
+from bs4 import BeautifulSoup
+import openai
+
+# Set up OpenAI API credentials
+openai.api_key = "YOUR_API_KEY"
+
+# Function to generate summary using OpenAI API
+def generate_summary(text):
+    response = openai.Completion.create(
+        engine="davinci",
+        prompt=f"Summarize the following text:\\n{text}\\n---\\nSummary:",
+        max_tokens=60,
+        n=1,
+        stop=None,
+        temperature=0.7,
+    )
+
+    summary = response.choices[0].text.strip()
+    return summary
+
+# Search term
+query = "esports news"
+
+# Google News URL
+url = f"<https://news.google.com/search?q={query}&hl=en-US&gl=US&ceid=US%3Aen>"
+
+# Fetch the Google News webpage
+html = requests.get(url).text
+
+# Parse the HTML using BeautifulSoup
+soup = BeautifulSoup(html, "html.parser")
+
+# Find the top three news articles
+articles = soup.find_all("a", {"class": "DY5T1d"})[:3]
+
+# Generate summaries for each article
+summaries = []
+for article in articles:
+    article_title = article.text
+    article_link = f"<https://news.google.com>{article['href']}"
+
+    # Fetch the article webpage
+    article_html = requests.get(article_link).text
+
+    # Parse the HTML using BeautifulSoup
+    article_soup = BeautifulSoup(article_html, "html.parser")
+
+    # Find the article text
+    article_text = article_soup.find_all("div", {"class": "article-body"})[0].text
+
+    # Generate a summary using OpenAI API
+    summary = generate_summary(article_text)
+    summaries.append(summary)
+
+# Generate the HTML code
+html_code = f"""
 <div class="container">
-<div class="row">
-<div class="col-sm-4">
-<h3>First Article:</h3>
-<p>{AI generated text summarizing the first article}</p>
-<a href="{link to the first article in google news}" target="_blank">Read more</a>
+    <div class="row">
+        <div class="col-sm-4">
+            <h3>{articles[0].text}</h3>
+            <p>{summaries[0]}</p>
+            <a href="{articles[0]['href']}" target="_blank">Read more</a>
+        </div>
+        <div class="col-sm-4">
+            <h3>{articles[1].text}</h3>
+            <p>{summaries[1]}</p>
+            <a href="{articles[1]['href']}" target="_blank">Read more</a>
+        </div>
+        <div class="col-sm-4">
+            <h3>{articles[2].text}</h3>
+            <p>{summaries[2]}</p>
+            <a href="{articles[2]['href']}" target="_blank">Read more</a>
+        </div>
+    </div>
 </div>
-<div class="col-sm-4">
-<h3>Second Article:</h3>
-<p>{AI generated text summarizing the second article}</p>
-<a href="{link to the second article in google news}" target="_blank">Read more</a>
-</div>
-<div class="col-sm-4">
-<h3>Third Article:</h3>
-<p>{AI generated text summarizing the third article}</p>
-<a href="{link to the third article in google news}" target="_blank">Read more</a>
-</div>
-</div>
-</div>
+"""
+
+# Output the HTML code
+print(html_code)
