@@ -1,23 +1,89 @@
-<?php
-include('simple_html_dom.php'); // Include the Simple HTML DOM library
+<!DOCTYPE html>
+<html>
+<head>
+    <title>The Esports Update</title>
+    <style>
+        body {
+            background: linear-gradient(to bottom right, #0F0C29, #302B63, #24243e);
+            color: #fff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
 
-// Google News URL
-$url = '<https://news.google.com/search?q=esports%20news&hl=en-US&gl=US&ceid=US%3Aen>';
+        .container {
+            width: 80%;
+            margin: auto;
+            padding-top: 30px;
+        }
 
-// Create DOM from URL
-$html = file_get_html($url);
+        h1 {
+            text-align: center;
+            font-size: 48px;
+            margin-bottom: 50px;
+        }
 
-// Find all articles
-$articles = $html->find('.NiLAwe.y6IFtc.R7GTQ.keNKEd.j7vNaf.nID9nc');
+        .card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 30px;
+            padding: 20px;
+        }
 
-// Loop through the first 10 articles and display links
-for ($i = 0; $i < 10; $i++) {
-    $link = '<https://news.google.com>' . $articles[$i]->find('a', 0)->href;
-    echo '<a href="' . $link . '" target="_blank">' . $link . '</a>
+        h2 {
+            font-size: 30px;
+            margin-top: 0;
+        }
+
+        p {
+            font-size: 18px;
+            margin-top: 20px;
+            line-height: 1.5;
+        }
+
+        img {
+            max-width: 100%;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>The Esports Update</h1>
+        </header>
+        <main>
+            <div class="card">
+                <h2>Latest News</h2>
+                <?php
+                include('simple_html_dom.php'); // Include the Simple HTML DOM library
+
+                // Google News URL
+                $url = '<https://news.google.com/search?q=esports&hl=en-US&gl=US&ceid=US%3Aen>';
+
+                // Create DOM from URL
+                $html = file_get_html($url);
+
+                // Find all articles
+                $articles = $html->find('.NiLAwe.y6IFtc.R7GTQ.keNKEd.j7vNaf.nID9nc');
+
+                // Loop through the first 10 articles and display links
+                for ($i = 0; $i < 10; $i++) {
+                    $link = '<https://news.google.com>' . $articles[$i]->find('a', 0)->href;
+                    echo '<a href="' . $link . '" target="_blank">' . $link . '</a>';
+                    echo '
 ';
-}
+                }
 
-// Clean up
-$html->clear();
-unset($html);
-?>
+                // Clean up
+                $html->clear();
+                unset($html);
+                ?>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
