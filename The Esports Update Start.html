@@ -1,152 +1,110 @@
-import requests
-from bs4 import BeautifulSoup
-import openai
-
-# Set up OpenAI API credentials
-openai.api_key = "YOUR_API_KEY"
-
-# Function to generate summary using OpenAI API
-def generate_summary(text):
-    response = openai.Completion.create(
-        engine="davinci",
-        prompt=f"Summarize the following text:\\n{text}\\n---\\nSummary:",
-        max_tokens=60,
-        n=1,
-        stop=None,
-        temperature=0.7,
-    )
-
-    summary = response.choices[0].text.strip()
-    return summary
-
-# Search term
-query = "esports news"
-
-# Google News URL
-url = f"<https://news.google.com/search?q={query}&hl=en-US&gl=US&ceid=US%3Aen>"
-
-# Fetch the Google News webpage
-html = requests.get(url).text
-
-# Parse the HTML using BeautifulSoup
-soup = BeautifulSoup(html, "html.parser")
-
-# Find the top three news articles
-articles = soup.find_all("a", {"class": "DY5T1d"})[:3]
-
-# Generate summaries for each article
-summaries = []
-for article in articles:
-    article_title = article.text
-    article_link = f"<https://news.google.com>{article['href']}"
-
-    # Fetch the article webpage
-    article_html = requests.get(article_link).text
-
-    # Parse the HTML using BeautifulSoup
-    article_soup = BeautifulSoup(article_html, "html.parser")
-
-    # Find the article text
-    article_text = article_soup.find_all("div", {"class": "article-body"})[0].text
-
-    # Generate a summary using OpenAI API
-    summary = generate_summary(article_text)
-    summaries.append(summary)
-
-# Generate the HTML code
-html_code = f"""
-<div class="container">
-    <div class="row">
-        <div class="col-sm-4">
-            <h3>{articles[0].text}</h3>
-            <p>{summaries[0]}</p>
-            <a href="{articles[0]['href']}" target="_blank">Read more</a>
-        </div>
-        <div class="col-sm-4">
-            <h3>{articles[1].text}</h3>
-            <p>{summaries[1]}</p>
-            <a href="{articles[1]['href']}" target="_blank">Read more</a>
-        </div>
-        <div class="col-sm-4">
-            <h3>{articles[2].text}</h3>
-            <p>{summaries[2]}</p>
-            <a href="{articles[2]['href']}" target="_blank">Read more</a>
-        </div>
-    </div>
-</div>
-"""
-
-# Output the HTML code
-print(html_code)
-
 <!DOCTYPE html>
 <html>
 <head>
-	<title>The Esports Update</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="<https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css>">
-	<!-- jQuery -->
-	<script src="<https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js>"></script>
-	<!-- Bootstrap JavaScript -->
-	<script src="<https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js>"></script>
+    <title>Oscar’s Website by Grace</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="<https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css>">
+    <!-- jQuery -->
+    <script src="<https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js>"></script>
+    <!-- Bootstrap JavaScript -->
+    <script src="<https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js>"></script>
 </head>
 <body>
-	<div class="container">
-		<h1>The Esports Update</h1>
-		<div class="row">
-			<div class="col-sm-4">
-				<h3>First Article:</h3>
-				<p>AI generated text summarizing the first article.</p>
-				<a href="{link to the first article in google news}" target="_blank">Read more</a>
-			</div>
-			<div class="col-sm-4">
-				<h3>Second Article:</h3>
-				<p>AI generated text summarizing the second article.</p>
-				<a href="{link to the second article in google news}" target="_blank">Read more</a>
-			</div>
-			<div class="col-sm-4">
-				<h3>Third Article:</h3>
-				<p>AI generated text summarizing the third article.</p>
-				<a href="{link to the third article in google news}" target="_blank">Read more</a>
-			</div>
-		</div>
-	</div>
-</body>
-</html>
-    
-# Find the top three news articles
-articles = soup.find_all("a", {"class": "DY5T1d"})[:3]
-
-# Generate summaries for each article
-summaries = []
-links = []
-for article in articles:
-    article_title = article.text
-    article_link = f"<https://news.google.com>{article['href']}"
-    links.append(article_link)
-
-# Generate the HTML code
-html_code = f"""
-<div class="container">
-    <div class="row">
-        <div class="col-sm-4">
-            <h3>{articles[0].text}</h3>
-            <p>{summaries[0]}</p>
-            <a href="{links[0]}" target="_blank">Read more</a>
-        </div>
-        <div class="col-sm-4">
-            <h3>{articles[1].text}</h3>
-            <p>{summaries[1]}</p>
-            <a href="{links[1]}" target="_blank">Read more</a>
-        </div>
-        <div class="col-sm-4">
-            <h3>{articles[2].text}</h3>
-            <p>{summaries[2]}</p>
-            <a href="{links[2]}" target="_blank">Read more</a>
+    <div class="container">
+        <h1>Oscar’s Website by Grace</h1>
+        <div class="row">
+            <div class="col-sm-4">
+                <h3>First Article:</h3>
+                <p>AI generated text summarizing the first article.</p>
+                <a href="{link to the first article in google news}" target="_blank">Read more</a>
+            </div>
+            <div class="col-sm-4">
+                <h3>Second Article:</h3>
+                <p>AI generated text summarizing the second article.</p>
+                <a href="{link to the second article in google news}" target="_blank">Read more</a>
+            </div>
+            <div class="col-sm-4">
+                <h3>Third Article:</h3>
+                <p>AI generated text summarizing the third article.</p>
+                <a href="{link to the third article in google news}" target="_blank">Read more</a>
+            </div>
         </div>
     </div>
-</div>
-"""
-  
+
+    <script>
+        // Set up OpenAI API credentials
+        openai.api_key = "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";
+
+        // Function to generate summary using OpenAI API
+        function generateSummary(text) {
+            openai.Completion.create(
+                engine: "davinci",
+                prompt: "Summarize the following text:\\\\n" + text + "\\\\n---\\\\nSummary:",
+                max_tokens: 60,
+                n: 1,
+                stop: null,
+                temperature: 0.7,
+                function(err, response) {
+                    if (err) {
+                        console.log("Error: " + err);
+                    } else {
+                        var summary = response.choices[0].text.trim();
+                        return summary;
+                    }
+                }
+            );
+        }
+
+        // Search term
+        var query = "esports news";
+
+        // Google News URL
+        var url = "<https://news.google.com/search?q=" + query + "&hl=en-US&gl=US&ceid=US%3Aen>";
+
+        // Fetch the Google News webpage
+        $.get(url, function(data) {
+            // Parse the HTML using BeautifulSoup
+            var soup = $(data);
+
+            // Find the top three news articles
+            var articles = soup.find(".DY5T1d").slice(0, 3);
+
+            // Generate summaries for each article
+            var summaries = [];
+            var links = [];
+            articles.each(function(index, article) {
+                var article_title = $(article).text();
+                var article_link = "<https://news.google.com" + $(article).attr("href") + ">";
+                links.push(article_link);
+
+                // Fetch the article webpage
+                $.get(article_link, function(article_data) {
+                    // Parse the HTML using BeautifulSoup
+                    var article_soup = $(article_data);
+
+                    // Find the article text
+                    var article_text = article_soup.find(".article-body").text();
+
+                    // Generate a summary using OpenAI API
+                    var summary = generateSummary(article_text);
+                    summaries.push(summary);
+                });
+            });
+
+            // Update the HTML code with the summaries and links
+            setTimeout(function() {
+                var html_code = "";
+                html_code += '<div class="container">';
+                html_code += '<div class="row">';
+                html_code += '<div class="col-sm-4">';
+                html_code += '<h3>' + articles[0].text + '</h3>';
+                html_code += '<p>' + summaries[0] + '</p>';
+                html_code += '<a href="' + links[0] + '" target="_blank">Read more</a>';
+                html_code += '</div>';
+                html_code += '<div class="col-sm-4">';
+                html_code += '<h3>' + articles[1].text + '</h3>';
+                html_code += '<p>' + summaries[1] + '</p>';
+                html_code += '<a href="' + links[1] + '" target="_blank">Read more</a>';
+                html_code +=
