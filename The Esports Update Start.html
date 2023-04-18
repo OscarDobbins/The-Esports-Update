@@ -1,122 +1,162 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>The Esports Update</title>
-	<style>
-		body {
-			font-family: Arial, sans-serif;
-			background: linear-gradient(to bottom, #1c2331, #4a4e69);
-			color: white;
-			margin: 0;
-			padding: 0;
-		}
+  <head>
+    <title>The Esports Update</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to bottom, #1c2331, #4a4e69);
+        color: white;
+        margin: 0;
+        padding: 0;
+      }
 
-		h1 {
-			text-align: center;
-			font-weight: bold;
-			font-size: 36px;
-			font-family: 'Roboto', sans-serif;
-			margin-top: 20px;
-		}
+      h1 {
+        text-align: center;
+        font-weight: bold;
+        font-size: 36px;
+        font-family: 'Roboto', sans-serif;
+        margin-top: 20px;
+      }
 
-		h2 {
-			margin-top: 30px;
-			font-size: 24px;
-			color: #f2c14e;
-			border-bottom: 2px solid #f2c14e;
-			padding-bottom: 10px;
-		}
+      h2 {
+        margin-top: 30px;
+        font-size: 24px;
+        color: #f2c14e;
+        border-bottom: 2px solid #f2c14e;
+        padding-bottom: 10px;
+      }
 
-		p {
-			text-align: justify;
-			text-justify: inter-word;
-			font-size: 16px;
-			line-height: 1.5;
-		}
+      p {
+        text-align: justify;
+        text-justify: inter-word;
+        font-size: 16px;
+        line-height: 1.5;
+      }
 
-		.author {
-			font-size: 0.8em;
-			text-align: center;
-			margin-top: 20px;
-		}
+      .author {
+        font-size: 0.8em;
+        text-align: center;
+        margin-top: 20px;
+      }
 
-		.container {
-			max-width: 800px;
-			margin: 0 auto;
-			padding: 20px;
-		}
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
 
-		.article {
-			margin-bottom: 60px;
-		}
+      .article {
+        margin-bottom: 60px;
+      }
 
-		.article:nth-child(odd) {
-			background-color: #2a2e38;
-			padding: 20px;
-		}
+      .article:nth-child(odd) {
+        background-color: #2a2e38;
+        padding: 20px;
+      }
 
-		.article:nth-child(even) {
-			background-color: #1c2331;
-			padding: 20px;
-		}
+      .article:nth-child(even) {
+        background-color: #1c2331;
+        padding: 20px;
+      }
 
-		.article h2 {
-			color: #f2c14e;
-			margin-top: 0;
-			margin-bottom: 10px;
-		}
+      .article h2 {
+        color: #f2c14e;
+        margin-top: 0;
+        margin-bottom: 10px;
+      }
 
-		.article p {
-			color: #ccc;
-			margin-top: 0;
-		}
+      .article p {
+        color: #ccc;
+        margin-top: 0;
+      }
 
-		.article a {
-			color: #f2c14e;
-			text-decoration: none;
-		}
+      .article a {
+        color: #f2c14e;
+        text-decoration: none;
+      }
 
-		.article a:hover {
-			text-decoration: underline;
-		}
-	</style>
-</head>
-<body>
-	<div class="container">
-		<h1>The Esports Update</h1>
-		<div class="article">
-			<h2><a href="article1.html" target="_blank"></a></h2>
-			<p id="article-1"></p>
-		</div>
-		<div class="article">
-			<h2><a href="article2.html" target="_blank"></a></h2>
-			<p id="article-2"></p>
-		</div>
-		<div class="article">
-			<h2><a href="article3.html" target="_blank"></a></h2>
-			<p id="article-3"></p>
-		</div>
-		<div class="author">by Oscar Dobbins</div>
-	</div>
-	<script>
-		function updateArticles() {
-			fetch("<https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.espn.com%2Fesports%2Fstory%2Frss%2F_%2Fid%2F15111385%2Fesports-all&api_key=vgdqegcsjzopdmprr97fvykshqab3r1e8qjz6m5n&count=3>")
-			.then((response) => response.json())
-			.then((data) => {
-				let articles = data.items;
-				articles.forEach((article, index) => {
-					let articleParagraph = document.querySelector(`#article-${index+1}`);
-					let articleLink = document.createElement("a");
-					articleLink.href = article.link;
-					articleLink.target = "_blank";
-					articleLink.textContent = article.title;
-					let articleHeading = document.querySelector(`#article-${index+1} h2`);
-					articleHeading.appendChild(articleLink);
-				});
-			});
-		}
-		setInterval(updateArticles, 43200000); // 12 hours in milliseconds
-	</script>
-</body>
+      .article a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>The Esports Update</h1>
+
+      <div class="article">
+        <h2><a href="article1.html" target="_blank"></a></h2>
+        <p id="article-1"></p>
+      </div>
+
+      <div class="article">
+        <h2><a href="article2.html" target="_blank"></a></h2>
+        <p id="article-2"></p>
+      </div>
+
+      <div class="article">
+        <h2><a href="article3.html" target="_blank"></a></h2>
+        <p id="article-3"></p>
+      </div>
+
+      <div class="article">
+        <h2><a href="article4.html" target="_blank"></a></h2>
+        <p id="article-4"></p>
+      </div>
+
+      <div class="article">
+        <h2><a href="article5.html" target="_blank"></a></h2>
+        <p id="article-5"></p>
+      </div>
+
+      <div class="article">
+        <h2><a href="article6.html" target="_blank"></a></h2>
+        <p id="article-6"></p>
+      </div>
+
+      <div class="article">
+        <h2><a href="article7.html" target="_blank"></a></h2>
+        <p id="article-7"></p>
+      </div>
+
+      <div class="article">
+        <h2><a href="article8.html" target="_blank"></a></h2>
+        <p id="article-8"></p>
+      </div>
+
+      <div class="article">
+        <h2><a href="article9.html" target="_blank"></a></h2>
+        <p id="article-9"></p>
+      </div>
+
+      <div class="article">
+        <h2><a href="article10.html" target="_blank"></a></h2>
+        <p id="article-10"></p>
+      </div>
+
+      <div class="author">by Oscar Dobbins</div>
+    </div>
+
+    <script>
+      function updateArticles() {
+        fetch("<https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.espn.com%2Fesports%2Fstory%2Frss%2F_%2Fid%2F15111385%2Fesports-all&api_key=vgdqegcsjzopdmprr97fvykshqab3r1e8qjz6m5n&count=10>")
+        .then((response) => response.json())
+        .then((data) => {
+          let articles = data.items;
+          articles.forEach((article, index) => {
+            let articleParagraph = document.querySelector(`#article-${index+1}`);
+            let articleLink = document.createElement("a");
+            articleLink.href = article.link;
+            articleLink.target = "_blank";
+            articleLink.textContent = article.title;
+            let articleHeading = document.querySelector(`#article-${index+1} h2`);
+            articleHeading.appendChild(articleLink);
+          });
+        });
+      }
+      setInterval(updateArticles, 300000); // 5 minutes in milliseconds
+    </script>
+  </body>
 </html>
-
