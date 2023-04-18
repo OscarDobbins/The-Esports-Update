@@ -81,20 +81,24 @@
 				} else {
 					$result = json_decode($response, true);
 
-					foreach ($result['articles'] as $article) {
-						$title = $article['title'];
-						$link = $article['url'];
-						$description = $article['description'];
-						$image = $article['image'];
+					if (count($result['articles']) > 0) {
+						foreach ($result['articles'] as $article) {
+							$title = $article['title'];
+							$link = $article['url'];
+							$description = $article['description'];
+							$image = $article['image'];
 
-						echo '<div class="card">';
-						echo '<h2>' . $title . '</h2>';
-						if ($image) {
-							echo '<img src="' . $image . '" alt="' . $title . '">';
+							echo '<div class="card">';
+							echo '<h2>' . $title . '</h2>';
+							if ($image) {
+								echo '<img src="' . $image . '" alt="' . $title . '">';
+							}
+							echo '<p>' . $description . '</p>';
+							echo '<a href="' . $link . '" target="_blank">Read more</a>';
+							echo '</div>';
 						}
-						echo '<p>' . $description . '</p>';
-						echo '<a href="' . $link . '" target="_blank">Read more</a>';
-						echo '</div>';
+					} else {
+						echo '<p>No articles found.</p>';
 					}
 				}
 				?>
