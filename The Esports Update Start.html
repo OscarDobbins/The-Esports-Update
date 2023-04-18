@@ -153,9 +153,11 @@
             articleLink.textContent = article.title;
             let articleHeading = document.querySelector(`#article-${index+1} h2`);
             articleHeading.appendChild(articleLink);
+            articleParagraph.textContent = article.description;
           });
         });
       }
+      updateArticles();
       setInterval(updateArticles, 300000); // 5 minutes in milliseconds
     </script>
   </body>
