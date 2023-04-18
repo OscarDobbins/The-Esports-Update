@@ -107,24 +107,25 @@
     <script>
       function updateArticles() {
         fetch("<https://www.espn.com/esports/story/rss/_/id/15111385/esports-all>")
-        .then((response) => response.text())
-        .then((str) => new window.DOMParser().parseFromString(str, "text/xml"))
-        .then((data) => {
-          let articles = data.querySelectorAll("item");
-          articles.forEach((article, index) => {
-            if (index < 3) {
-              let articleParagraph = document.querySelector(`#article-${index+1}`);
-              let articleLink = document.createElement("a");
-              articleLink.href = article.querySelector("link").textContent;
-              articleLink.target = "_blank";
-              articleLink.textContent = article.querySelector("title").textContent;
-              let articleHeading = document.querySelector(`#article-${index+1} h2`);
-              articleHeading.appendChild(articleLink);
-              articleParagraph.textContent = article.querySelector("description").textContent;
-            }
+          .then((response) => response.text())
+          .then((str) => new window.DOMParser().parseFromString(str, "text/xml"))
+          .then((data) => {
+            let articles = data.querySelectorAll("item");
+            articles.forEach((article, index) => {
+              if (index < 3) {
+                let articleParagraph = document.querySelector(`#article-${index+1}`);
+                let articleLink = document.createElement("a");
+                articleLink.href = article.querySelector("link").textContent;
+                articleLink.target = "_blank";
+                articleLink.textContent = article.querySelector("title").textContent;
+                let articleHeading = document.querySelector(`#article-${index+1} h2`);
+                articleHeading.appendChild(articleLink);
+                articleParagraph.textContent = article.querySelector("description").textContent;
+              }
+            });
           });
-        });
       }
+
       updateArticles(); // Fetch articles on page load
       setInterval(updateArticles, 300000); // 5 minutes in milliseconds
     </script>
