@@ -111,15 +111,16 @@
           .then((str) => new window.DOMParser().parseFromString(str, "text/xml"))
           .then((data) => {
             let articles = data.querySelectorAll("item");
+            let articleElements = document.querySelectorAll(".article");
             articles.forEach((article, index) => {
               if (index < 3) {
-                let articleParagraph = document.querySelector(`#article-${index+1}`);
                 let articleLink = document.createElement("a");
                 articleLink.href = article.querySelector("link").textContent;
                 articleLink.target = "_blank";
                 articleLink.textContent = article.querySelector("title").textContent;
-                let articleHeading = document.querySelector(`#article-${index+1} h2`);
+                let articleHeading = articleElements[index].querySelector("h2");
                 articleHeading.appendChild(articleLink);
+                let articleParagraph = articleElements[index].querySelector("p");
                 articleParagraph.textContent = article.querySelector("description").textContent;
               }
             });
@@ -131,3 +132,4 @@
     </script>
   </body>
 </html>
+
