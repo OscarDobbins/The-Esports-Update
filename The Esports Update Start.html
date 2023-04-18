@@ -78,3 +78,75 @@ html_code = f"""
 
 # Output the HTML code
 print(html_code)
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>The Esports Update</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="<https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css>">
+	<!-- jQuery -->
+	<script src="<https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js>"></script>
+	<!-- Bootstrap JavaScript -->
+	<script src="<https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js>"></script>
+</head>
+<body>
+	<div class="container">
+		<h1>The Esports Update</h1>
+		<div class="row">
+			<div class="col-sm-4">
+				<h3>First Article:</h3>
+				<p>AI generated text summarizing the first article.</p>
+				<a href="{link to the first article in google news}" target="_blank">Read more</a>
+			</div>
+			<div class="col-sm-4">
+				<h3>Second Article:</h3>
+				<p>AI generated text summarizing the second article.</p>
+				<a href="{link to the second article in google news}" target="_blank">Read more</a>
+			</div>
+			<div class="col-sm-4">
+				<h3>Third Article:</h3>
+				<p>AI generated text summarizing the third article.</p>
+				<a href="{link to the third article in google news}" target="_blank">Read more</a>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+    
+# Find the top three news articles
+articles = soup.find_all("a", {"class": "DY5T1d"})[:3]
+
+# Generate summaries for each article
+summaries = []
+links = []
+for article in articles:
+    article_title = article.text
+    article_link = f"<https://news.google.com>{article['href']}"
+    links.append(article_link)
+
+# Generate the HTML code
+html_code = f"""
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4">
+            <h3>{articles[0].text}</h3>
+            <p>{summaries[0]}</p>
+            <a href="{links[0]}" target="_blank">Read more</a>
+        </div>
+        <div class="col-sm-4">
+            <h3>{articles[1].text}</h3>
+            <p>{summaries[1]}</p>
+            <a href="{links[1]}" target="_blank">Read more</a>
+        </div>
+        <div class="col-sm-4">
+            <h3>{articles[2].text}</h3>
+            <p>{summaries[2]}</p>
+            <a href="{links[2]}" target="_blank">Read more</a>
+        </div>
+    </div>
+</div>
+"""
+  
