@@ -1,117 +1,132 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>The Esports Update</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to bottom, #1c2331, #4a4e69);
-      color: white;
-      margin: 0;
-      padding: 0;
-    }
+  <head>
+    <title>The Esports Update</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to bottom, #1c2331, #4a4e69);
+        color: white;
+        margin: 0;
+        padding: 0;
+      }
 
-    h1 {
-      text-align: center;
-      font-weight: bold;
-      font-size: 36px;
-      font-family: 'Roboto', sans-serif;
-      margin-top: 20px;
-    }
+      h1 {
+        text-align: center;
+        font-weight: bold;
+        font-size: 36px;
+        font-family: 'Roboto', sans-serif;
+        margin-top: 20px;
+      }
 
-    h2 {
-      margin-top: 30px;
-      font-size: 24px;
-      color: #f2c14e;
-      border-bottom: 2px solid #f2c14e;
-      padding-bottom: 10px;
-    }
+      h2 {
+        margin-top: 30px;
+        font-size: 24px;
+        color: #f2c14e;
+        border-bottom: 2px solid #f2c14e;
+        padding-bottom: 10px;
+      }
 
-    p {
-      text-align: justify;
-      text-justify: inter-word;
-      font-size: 16px;
-      line-height: 1.5;
-    }
+      p {
+        text-align: justify;
+        text-justify: inter-word;
+        font-size: 16px;
+        line-height: 1.5;
+      }
 
-    .author {
-      font-size: 0.8em;
-      text-align: center;
-      margin-top: 20px;
-    }
+      .author {
+        font-size: 0.8em;
+        text-align: center;
+        margin-top: 20px;
+      }
 
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 20px;
-    }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
 
-    .article {
-      margin-bottom: 60px;
-    }
+      .article {
+        margin-bottom: 60px;
+      }
 
-    .article:nth-child(odd) {
-      background-color: #2a2e38;
-      padding: 20px;
-    }
+      .article:nth-child(odd) {
+        background-color: #2a2e38;
+        padding: 20px;
+      }
 
-    .article:nth-child(even) {
-      background-color: #1c2331;
-      padding: 20px;
-    }
+      .article:nth-child(even) {
+        background-color: #1c2331;
+        padding: 20px;
+      }
 
-    .article h2 {
-      color: #f2c14e;
-      margin-top: 0;
-      margin-bottom: 10px;
-    }
+      .article h2 {
+        color: #f2c14e;
+        margin-top: 0;
+        margin-bottom: 10px;
+      }
 
-    .article p {
-      color: #ccc;
-      margin-top: 0;
-    }
+      .article p {
+        color: #ccc;
+        margin-top: 0;
+      }
 
-    .article a {
-      color: #f2c14e;
-      text-decoration: none;
-    }
+      .article a {
+        color: #f2c14e;
+        text-decoration: none;
+      }
 
-    .article a:hover {
-      text-decoration: underline;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>The Esports Update</h1>
-    <!-- Articles will be dynamically inserted here -->
-    <div class="author">by Oscar Dobbins</div>
-  </div>
+      .article a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
 
-  <script>
-    function updateArticles() {
-      fetch("<https://gnews.io/api/v4/search?q=esports&lang=en&country=us&token=980c0bab69aa8c18442d8c8a175e0354>")
-        .then(response => response.json())
-        .then(data => {
-          let articles = data.articles;
-          let articlesContainer = document.querySelector('.container');
-          articlesContainer.innerHTML = ''; // Clear previous articles
+  <body>
+    <div class="container">
+      <h1>The Esports Update</h1>
+
+      <div class="article">
+        <h2><a href="" target="_blank"></a></h2>
+        <p id="article-1"></p>
+      </div>
+
+      <div class="article">
+        <h2><a href="" target="_blank"></a></h2>
+        <p id="article-2"></p>
+      </div>
+
+      <div class="article">
+        <h2><a href="" target="_blank"></a></h2>
+        <p id="article-3"></p>
+      </div>
+
+      <div class="author">by Oscar Dobbins</div>
+    </div>
+
+    <script>
+      function updateArticles() {
+        fetch("<https://www.espn.com/esports/story/rss/_/id/15111385/esports-all>")
+        .then((response) => response.text())
+        .then((str) => new window.DOMParser().parseFromString(str, "text/xml"))
+        .then((data) => {
+          let articles = data.querySelectorAll("item");
           articles.forEach((article, index) => {
-            if (index < 10) {
-              let articleHTML = `
-                <div class="article">
-                  <h2><a href="${article.url}" target="_blank">${article.title}</a></h2>
-                  <p>${article.description}</p>
-                </div>
-              `;
-              articlesContainer.insertAdjacentHTML('beforeend', articleHTML);
+            if (index < 3) {
+              let articleParagraph = document.querySelector(`#article-${index+1}`);
+              let articleLink = document.createElement("a");
+              articleLink.href = article.querySelector("link").textContent;
+              articleLink.target = "_blank";
+              articleLink.textContent = article.querySelector("title").textContent;
+              let articleHeading = document.querySelector(`#article-${index+1} h2`);
+              articleHeading.appendChild(articleLink);
+              articleParagraph.textContent = article.querySelector("description").textContent;
             }
           });
         });
-    }
-
-    updateArticles(); // Fetch articles on page load
-    setInterval(updateArticles, 300000); // 5 minutes in milliseconds
-  </script>
-</body>
+      }
+      updateArticles(); // Fetch articles on page load
+      setInterval(updateArticles, 300000); // 5 minutes in milliseconds
+    </script>
+  </body>
 </html>
