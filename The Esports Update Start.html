@@ -1,35 +1,23 @@
 <?php
+include('simple_html_dom.php'); // Include the Simple HTML DOM library
 
-$curl = curl_init();
-curl_setopt_array($curl, array(
-    CURLOPT_URL => "<https://gnews.io/api/v4/search?q=esports&token=980c0bab69aa8c18442d8c8a175e0354&lang=en&country=us&max=10>",
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_FOLLOWLOCATION => true,
-    CURLOPT_ENCODING => "",
-    CURLOPT_MAXREDIRS => 10,
-    CURLOPT_TIMEOUT => 30,
-    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    CURLOPT_CUSTOMREQUEST => "GET",
-));
+// Google News URL
+$url = '<https://news.google.com/search?q=esports%20news&hl=en-US&gl=US&ceid=US%3Aen>';
 
-$response = curl_exec($curl);
-$err = curl_error($curl);
+// Create DOM from URL
+$html = file_get_html($url);
 
-curl_close($curl);
+// Find all articles
+$articles = $html->find('.NiLAwe.y6IFtc.R7GTQ.keNKEd.j7vNaf.nID9nc');
 
-if ($err) {
-    echo "cURL Error #:" . $err;
-} else {
-    $result = json_decode($response, true);
-
-    if (count($result['articles']) > 0) {
-        foreach ($result['articles'] as $article) {
-            $link = $article['url'];
-            echo $link . "
-";
-        }
-    } else {
-        echo '<p>No articles found.</p>';
-    }
+// Loop through the first 10 articles and display links
+for ($i = 0; $i < 10; $i++) {
+    $link = '<https://news.google.com>' . $articles[$i]->find('a', 0)->href;
+    echo '<a href="' . $link . '" target="_blank">' . $link . '</a>
+';
 }
+
+// Clean up
+$html->clear();
+unset($html);
 ?>
