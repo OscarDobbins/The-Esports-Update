@@ -58,32 +58,29 @@
         <main>
             <div class="card">
                 <h2>Latest News</h2>
-                <?php
-                include('simple_html_dom.php'); // Include the Simple HTML DOM library
-
-                // Google News URL
-                $url = '<https://news.google.com/search?q=esports&hl=en-US&gl=US&ceid=US%3Aen>';
-
-                // Create DOM from URL
-                $html = file_get_html($url);
-
-                // Find all articles
-                $articles = $html->find('.NiLAwe.y6IFtc.R7GTQ.keNKEd.j7vNaf.nID9nc');
-
-                // Loop through the first 10 articles and display links
-                for ($i = 0; $i < 10; $i++) {
-                    $link = '<https://news.google.com>' . $articles[$i]->find('a', 0)->href;
-                    echo '<a href="' . $link . '" target="_blank">' . $link . '</a>';
-                    echo '
-';
-                }
-
-                // Clean up
-                $html->clear();
-                unset($html);
-                ?>
+                <ul id="news-list"></ul>
             </div>
         </main>
     </div>
+
+    <script src="<https://gnews.io/api/v4/top-headlines?token=980c0bab69aa8c18442d8c8a175e0354&lang=en&topic=sports>"></script>
+    <script>
+        const newsList = document.getElementById('news-list');
+        fetch('<https://gnews.io/api/v4/top-headlines?token=980c0bab69aa8c18442d8c8a175e0354&lang=en&topic=sports>')
+            .then(response => response.json())
+            .then(data => {
+                data.articles.forEach(article => {
+                    const articleLink = document.createElement('a');
+                    articleLink.href = article.url;
+                    articleLink.target = '_blank';
+                    articleLink.textContent = article.title;
+
+                    const listItem = document.createElement('li');
+                    listItem.appendChild(articleLink);
+
+                    newsList.appendChild(listItem);
+                });
+            });
+    </script>
 </body>
 </html>
